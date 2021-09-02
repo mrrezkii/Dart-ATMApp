@@ -24,14 +24,16 @@ class LocalStorage implements DataStorage {
       if (balance <= fromAcc.balance) {
         var fromBalance = fromAcc.balance - balance;
         var toBalance = balance + toAcc.balance;
-        print("Total saldo pentransfer" +
+        print("Total saldo sekarang " +
             fromAcc.username +
             " adalah " +
             fromBalance.toString());
         print("Total saldo penerima" +
             toAcc.username +
             " adalah " +
-            toAcc.toString());
+            toBalance.toString());
+      } else {
+        print("Saldo Anda tidak mencukupi untuk melakukan transaksi");
       }
     } catch (e) {
       print("Mohon input kembali");
@@ -41,9 +43,13 @@ class LocalStorage implements DataStorage {
   @override
   void doWithdraw(Account account, int balance) {
     try {
-      var latestBalance = account.balance - balance;
-      print("Saldo berhasil di tarik");
-      print("total saldo sekarang " + latestBalance.toString());
+      if (balance <= account.balance) {
+        var latestBalance = account.balance - balance;
+        print("Saldo berhasil di tarik");
+        print("total saldo sekarang " + latestBalance.toString());
+      } else {
+        print("Saldo Anda tidak mencukupi untuk melakukan transaksi");
+      }
     } catch (e) {
       print("Mohon input kembali");
     }
