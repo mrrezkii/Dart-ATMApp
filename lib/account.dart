@@ -5,5 +5,9 @@ class Account {
   final String password;
   final int balance;
 
-  Account({@required this.username, @required this.password, this.balance = 0});
+  Account(
+      {@required this.username, @required this.password, this.balance = 0}) {
+    assert(username != null || password != null,
+        "Kamu harus login dengan akun yang tersedia");
+  }
 }

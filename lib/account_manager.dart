@@ -10,15 +10,15 @@ class AccountManager {
     return dataStorage.doCheckBalance(account);
   }
 
-  void doTransfer(Account account) {
-    dataStorage.doTransfer(account);
+  void doTransfer(Account fromAcc, Account toAcc, int balance) {
+    dataStorage.doTransfer(fromAcc, toAcc, balance);
   }
 
-  void doWithdraw(Account account) {
-    dataStorage.doWithdraw(account);
+  void doWithdraw(Account account, int balance) {
+    dataStorage.doWithdraw(account, balance);
   }
 
-  void doAddBalance(Account account) {
-    dataStorage.doAddBalance(account);
+  void doAddBalance(Account account, int balance) {
+    dataStorage.doAddBalance(account, balance);
   }
 }
