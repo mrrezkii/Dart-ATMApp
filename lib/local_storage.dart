@@ -55,6 +55,8 @@ class LocalStorage implements DataStorage {
     try {
       var latestBalance = account.balance + balance;
       account.balance = latestBalance;
+
+      return true;
     } catch (e) {
       print(GETTING_ERROR);
     }
