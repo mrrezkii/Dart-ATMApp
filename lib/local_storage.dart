@@ -2,56 +2,63 @@ import 'package:atm_apps/account.dart';
 import 'package:atm_apps/data_storage.dart';
 
 class LocalStorage implements DataStorage {
+  static const FAILED_TRANSACTION =
+      'Saldo Anda tidak mencukupi untuk melakukan transaksi';
+  static const GETTING_ERROR =
+      'Data yang Anda inputkan salah. Mohon input kembali';
+
   @override
   int doCheckBalance(Account account) {
     return account.balance;
   }
 
   @override
-  void doAddBalance(Account account, int balance) {
-    try {
-      var latestBalance = account.balance + balance;
-      print("Saldo berhasil di tambah");
-      print("total saldo sekarang " + latestBalance.toString());
-    } catch (e) {
-      print("Mohon input kembali");
-    }
-  }
-
-  @override
-  void doTransfer(Account fromAcc, Account toAcc, int balance) {
+  bool doTransfer(Account fromAcc, Account toAcc, int balance) {
     try {
       if (balance <= fromAcc.balance) {
         var fromBalance = fromAcc.balance - balance;
         var toBalance = balance + toAcc.balance;
-        print("Total saldo sekarang " +
-            fromAcc.username +
-            " adalah " +
-            fromBalance.toString());
-        print("Total saldo penerima" +
-            toAcc.username +
-            " adalah " +
-            toBalance.toString());
+        fromAcc.balance = fromBalance;
+        toAcc.balance = toBalance;
+
+        return true;
       } else {
-        print("Saldo Anda tidak mencukupi untuk melakukan transaksi");
+        print(FAILED_TRANSACTION);
       }
     } catch (e) {
-      print("Mohon input kembali");
+      print(GETTING_ERROR);
     }
+
+    return false;
   }
 
   @override
-  void doWithdraw(Account account, int balance) {
+  bool doWithdraw(Account account, int balance) {
     try {
       if (balance <= account.balance) {
         var latestBalance = account.balance - balance;
-        print("Saldo berhasil di tarik");
-        print("total saldo sekarang " + latestBalance.toString());
+        account.balance = latestBalance;
+
+        return true;
       } else {
-        print("Saldo Anda tidak mencukupi untuk melakukan transaksi");
+        print(FAILED_TRANSACTION);
       }
     } catch (e) {
-      print("Mohon input kembali");
+      print(GETTING_ERROR);
     }
+
+    return false;
+  }
+
+  @override
+  bool doAddBalance(Account account, int balance) {
+    try {
+      var latestBalance = account.balance + balance;
+      account.balance = latestBalance;
+    } catch (e) {
+      print(GETTING_ERROR);
+    }
+
+    return false;
   }
 }
